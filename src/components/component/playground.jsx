@@ -155,7 +155,7 @@ export function Playground() {
                 {algoClicked === false ?
                     (
                         <Button
-                            onClick={runClicked}
+                            onClick={runPathfindingAlgorithm}
                             className="px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition-colors"
                         >
                             Run Algorithm
