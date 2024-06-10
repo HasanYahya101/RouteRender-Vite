@@ -86,6 +86,14 @@ export function Playground() {
 
     useEffect(() => {
         const newGrid = [...grid];
+        // reset the already set start and end nodes
+        newGrid.forEach((row, rowIndex) => {
+            row.forEach((cell, colIndex) => {
+                if (cell === 2 || cell === 3) {
+                    newGrid[rowIndex][colIndex] = 0;
+                }
+            });
+        });
         newGrid[startNode[0]][startNode[1]] = 2;
         newGrid[endNode[0]][endNode[1]] = 3;
         setGrid(newGrid);
