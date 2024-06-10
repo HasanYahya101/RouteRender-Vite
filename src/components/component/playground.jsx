@@ -161,7 +161,7 @@ export function Playground() {
                     setTimeout(() => {
                         newGrid[r][c] = color;
                         setGrid([...newGrid]);
-                        if (index === path.length - 1) {
+                        if (index === path.length - 1 && color === 5) {
                             setIsRunning(false);
                             setAlgoClicked(false);
                         }
@@ -172,11 +172,20 @@ export function Playground() {
             animatePath(allVisied, 4); // Blue for explored path
             setTimeout(() => animatePath(path, 5), allVisied.length * 100); // Yellow for shortest path
 
-            // copy grid
-            let new_grid = [...grid];
-            new_grid[startNode[0]][startNode[1]] = 2;
-            new_grid[endNode[0]][endNode[1]] = 3;
-            setGrid(new_grid);
+            // wait for the animation to finish
+            setTimeout(() => {
+                toast({
+                    title: "Success",
+                    description: "Path found successfully.",
+                    variant: "success",
+                });
+                // copy grid
+                let new_grid = [...grid];
+                new_grid[startNode[0]][startNode[1]] = 2;
+                new_grid[endNode[0]][endNode[1]] = 3;
+                setGrid(new_grid);
+            }, allVisied.length * 100 + path.length * 100 + 20);
+
         } else {
             toast({
                 title: "Error",
@@ -256,8 +265,8 @@ export function Playground() {
                 )}
             </div>
             <div className="mt-8 flex gap-4">
-                <StartDialogue handleStartNodeChange={handleStartNodeChange} startNode={startNode} endNode={endNode} />
-                <EndDialogue handleEndNodeChange={handleEndNodeChange} endNode={endNode} startNode={startNode} />
+                <StartDialogue handleStartNodeChange={handleStartNodeChange} startNode={startNode} endNode={endNode} algoClicked={algoClicked} />
+                <EndDialogue handleEndNodeChange={handleEndNodeChange} endNode={endNode} startNode={startNode} algoClicked={algoClicked} />
                 {algoClicked === false ?
                     (
                         <Button
@@ -280,7 +289,7 @@ export function Playground() {
 }
 
 
-function StartDialogue({ handleStartNodeChange, startNode, endNode }) {
+function StartDialogue({ handleStartNodeChange, startNode, endNode, algoClicked }) {
     const { toast } = useToast();
     const [row, setRow] = useState(startNode[0] + 1);
     const [column, setColumn] = useState(startNode[1] + 1);
@@ -318,14 +327,22 @@ function StartDialogue({ handleStartNodeChange, startNode, endNode }) {
     return (
         <Dialog open={open} onOpenChange={setOpen}
         >
-            <DialogTrigger>
-                <Button
-                    onClick={() => setOpen(true)}
-                    className={`px-4 py-2 rounded-md bg-green-500 text-white hover:bg-green-600 transition-colors`}
-                >
-                    Set Start
-                </Button>
-            </DialogTrigger>
+            {algoClicked === false ?
+                (
+                    <Button
+                        onClick={() => setOpen(true)}
+                        className={`px-4 py-2 rounded-md bg-green-500 text-white hover:bg-green-600 transition-colors`}
+                    >
+                        Set Start
+                    </Button>
+                ) : (
+                    <Button disabled
+                        className={`px-4 py-2 rounded-md bg-green-500 text-white hover:bg-green-600 transition-colors`}
+                    >
+                        Set Start
+                    </Button>
+                )}
+
             <DialogContent className="w-96"
             >
                 <DialogHeader>
@@ -356,7 +373,7 @@ function StartDialogue({ handleStartNodeChange, startNode, endNode }) {
     );
 }
 
-function EndDialogue({ handleEndNodeChange, endNode, startNode }) {
+function EndDialogue({ handleEndNodeChange, endNode, startNode, algoClicked }) {
     const { toast } = useToast();
     const [open, setOpen] = useState(false);
 
@@ -393,14 +410,22 @@ function EndDialogue({ handleEndNodeChange, endNode, startNode }) {
     return (
         <Dialog open={open} onOpenChange={setOpen}
         >
-            <DialogTrigger>
-                <Button
-                    onClick={() => setOpen(true)}
-                    className={`px-4 py-2 rounded-md bg-red-500 text-white hover:bg-red-600 transition-colors`}
-                >
-                    Set End
-                </Button>
-            </DialogTrigger>
+            {algoClicked === false ?
+                (
+                    <Button
+                        onClick={() => setOpen(true)}
+                        className={`px-4 py-2 rounded-md bg-red-500 text-white hover:bg-red-600 transition-colors`}
+                    >
+                        Set End
+                    </Button>
+                ) : (
+                    <Button disabled
+                        className={`px-4 py-2 rounded-md bg-red-500 text-white hover:bg-red-600 transition-colors`}
+                    >
+                        Set End
+                    </Button>
+                )}
+
             <DialogContent className="w-96"
             >
                 <DialogHeader>
