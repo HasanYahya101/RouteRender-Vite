@@ -31,6 +31,7 @@ export function Playground() {
     const [startNode, setStartNode] = useState([0, 0]);
     const [endNode, setEndNode] = useState([9, 9]);
     const [isRunning, setIsRunning] = useState(false);
+    const [algoClicked, setAlgoClicked] = useState(false);
     const handleGridClick = (row, col) => {
         if ((row === startNode[0] && col === startNode[1]) || (row === endNode[0] && col === endNode[1])) {
             return;
@@ -52,6 +53,7 @@ export function Playground() {
         }
     }
     const runPathfindingAlgorithm = () => {
+        setAlgoClicked(true);
         setIsRunning(true);
         const queue = [[startNode[0], startNode[1], 0]];
         const visited = new Set();
@@ -82,6 +84,7 @@ export function Playground() {
             }
         }
         setIsRunning(false);
+        setAlgoClicked(false);
     }
 
     useEffect(() => {
@@ -134,12 +137,21 @@ export function Playground() {
             <div className="mt-8 flex gap-4">
                 <StartDialogue handleStartNodeChange={handleStartNodeChange} startNode={startNode} />
                 <EndDialogue handleEndNodeChange={handleEndNodeChange} endNode={endNode} />
-                <Button
-                    onClick={runPathfindingAlgorithm}
-                    className="px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition-colors"
-                >
-                    Run Algorithm
-                </Button>
+                {algoClicked === false ?
+                    (
+                        <Button
+                            onClick={runPathfindingAlgorithm}
+                            className="px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+                        >
+                            Run Algorithm
+                        </Button>
+                    ) : (
+                        <Button disabled
+                            className="px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+                        >
+                            Run Algorithm
+                        </Button>
+                    )}
             </div>
             <Toaster />
         </div>)
