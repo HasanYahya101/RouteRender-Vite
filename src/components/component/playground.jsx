@@ -177,7 +177,7 @@ function StartDialogue({ handleStartNodeChange, startNode }) {
                                 />
                             </div>
                         </div>
-                        <Button className="px-4 py-2 rounded-md bg-green-500 text-white hover:bg-green-600 transition-colors mt-4" onClick={buttonClick}
+                        <Button className="px-4 py-2 rounded-md w-full bg-green-500 text-white hover:bg-green-600 transition-colors mt-4" onClick={buttonClick}
                         >
                             Set Start
                         </Button>
@@ -244,7 +244,7 @@ function EndDialogue({ handleEndNodeChange, endNode }) {
                                 />
                             </div>
                         </div>
-                        <Button className="px-4 py-2 rounded-md bg-red-500 text-white hover:bg-red-600 transition-colors mt-4" onClick={buttonClick}
+                        <Button className="px-4 py-2 w-full rounded-md bg-red-500 text-white hover:bg-red-600 transition-colors mt-4" onClick={buttonClick}
                         >
                             Set End
                         </Button>
