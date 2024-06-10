@@ -1,8 +1,8 @@
-# CalcWhiz (React + Vite)
+# RouteRender (React + Vite)
 
 ## Introduction
 
-This is a basic Calculator that allows for 4 basic operations (Addition, Subtraction, Multiplication and Division). It is made using Tailwind CSS and React.
+This is a basic Dijkstra's path finding algorithm visualizer. You set a start and an end tile. The algorithm starts searching each tile it can and finally finds and displays the shortest path.
 
 ## UI Library
 
