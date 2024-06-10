@@ -99,6 +99,15 @@ export function Playground() {
         setGrid(newGrid);
     }, [startNode, endNode]);
 
+    /**
+     * Colors:
+     * 0 - white (Unselected)
+     * 1 - gray (Selected)
+     * 2 - green (Start Node)
+     * 3 - red (End Node)
+     * 4 - blue (Path Algorithm)
+     */
+
     return (
         (<div className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
             <h1 className="text-3xl font-bold mb-8 text-gray-800 dark:text-gray-200">Path Finding Algorithm Visualizer</h1>
@@ -113,7 +122,8 @@ export function Playground() {
                                     ? "bg-gray-400 dark:bg-gray-600"
                                     : cell === 2
                                         ? "bg-green-500 dark:bg-green-700"
-                                        : "bg-red-500 dark:bg-red-700"
+                                        : cell === 3 ? "bg-red-500 dark:bg-red-700"
+                                            : "bg-blue-500 dark:bg-blue-700"
                                 }`}
                             onClick={() => handleGridClick(rowIndex, colIndex)}
                             onMouseEnter={() => handleGridClick(rowIndex, colIndex)}
