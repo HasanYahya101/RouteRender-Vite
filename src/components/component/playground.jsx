@@ -153,7 +153,7 @@ function StartDialogue({ handleStartNodeChange, startNode }) {
         >
             <DialogTrigger>
                 <Button
-                    onClick={() => handleStartNodeChange(0, 0)}
+                    onClick={() => setOpen(true)}
                     className={`px-4 py-2 rounded-md bg-green-500 text-white hover:bg-green-600 transition-colors`}
                 >
                     Set Start
@@ -191,11 +191,36 @@ function StartDialogue({ handleStartNodeChange, startNode }) {
 
 function EndDialogue({ handleEndNodeChange, endNode }) {
     const { toast } = useToast();
+    const [open, setOpen] = useState(false);
+
+    const [row, setRow] = useState(0);
+    const [column, setColumn] = useState(0);
+
+    function buttonClick() {
+        if (row < 1 || row > 10 || column < 1 || column > 10) {
+            toast({
+                title: "Error",
+                description: "The value in the inputs should be from 1 to 10 or between.",
+                variant: "destructive",
+            })
+            return;
+        }
+        let row_ = row - 1;
+        let column_ = column - 1;
+        handleEndNodeChange(row_, column_);
+        toast({
+            title: "Success",
+            description: "End node has been set successfully.",
+            variant: "success",
+        })
+        setOpen(false);
+    }
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}
+        >
             <DialogTrigger>
                 <Button
-                    onClick={() => handleEndNodeChange(9, 9)}
+                    onClick={() => setOpen(true)}
                     className={`px-4 py-2 rounded-md bg-red-500 text-white hover:bg-red-600 transition-colors`}
                 >
                     Set End
@@ -203,13 +228,28 @@ function EndDialogue({ handleEndNodeChange, endNode }) {
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Are you absolutely sure?</DialogTitle>
+                    <DialogTitle>Enter End Grid (1-10)
+                    </DialogTitle>
                     <DialogDescription>
-                        This action cannot be undone. This will permanently delete your account
-                        and remove your data from our servers.
+                        <div className="flex gap-4 mt-4 w-full">
+                            <div>
+                                <Label htmlFor="row" className="mb-3 ml-1">Row</Label>
+                                <Input type="number" placeholder="Row (1-10)" required value={row} onChange={(e) => setRow(e.target.value)}
+                                />
+                            </div>
+                            <div>
+                                <Label htmlFor="column" className="mb-3 ml-1">Column</Label>
+                                <Input type="number" placeholder="Column (1-10)" required value={column} onChange={(e) => setColumn(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        <Button className="px-4 py-2 rounded-md bg-red-500 text-white hover:bg-red-600 transition-colors mt-4" onClick={buttonClick}
+                        >
+                            Set End
+                        </Button>
                     </DialogDescription>
                 </DialogHeader>
             </DialogContent>
-        </Dialog>
+        </Dialog >
     );
 }
