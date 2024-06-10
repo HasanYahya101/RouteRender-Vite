@@ -126,6 +126,8 @@ function StartDialogue({ handleStartNodeChange, startNode }) {
     const [row, setRow] = useState(0);
     const [column, setColumn] = useState(0);
 
+    const [open, setOpen] = useState(false);
+
     function buttonClick() {
         if (row < 1 || row > 10 || column < 1 || column > 10) {
             toast({
@@ -138,10 +140,17 @@ function StartDialogue({ handleStartNodeChange, startNode }) {
         let row_ = row - 1;
         let column_ = column - 1;
         handleStartNodeChange(row_, column_);
+        toast({
+            title: "Success",
+            description: "Start node has been set successfully.",
+            variant: "success",
+        })
+        setOpen(false);
     }
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}
+        >
             <DialogTrigger>
                 <Button
                     onClick={() => handleStartNodeChange(0, 0)}
