@@ -150,7 +150,7 @@ export function Playground() {
                     }
                 }
             }
-            return { path: [], allVisied: [], found: false };
+            return { path: [], allVisied, found: false };
         };
 
         const { path, allVisied, found } = dijkstra();
@@ -187,19 +187,34 @@ export function Playground() {
             }, allVisied.length * 100 + path.length * 100 + 20);
 
         } else {
-            toast({
-                title: "Error",
-                description: "No path found.",
-                variant: "destructive",
-            });
-            setIsRunning(false);
-            setAlgoClicked(false);
+            // run failed path only for blue color
+            const animatePath = (path, color) => {
+                path.forEach(([r, c], index) => {
+                    setTimeout(() => {
+                        newGrid[r][c] = color;
+                        setGrid([...newGrid]);
+                        if (index === path.length - 1 && color === 4) {
+                            setIsRunning(false);
+                            setAlgoClicked(false);
+                        }
+                    }, index * 100);
+                });
+            };
 
-            // copy grid
-            let new_grid = [...grid];
-            new_grid[startNode[0]][startNode[1]] = 2;
-            new_grid[endNode[0]][endNode[1]] = 3;
-            setGrid(new_grid);
+            animatePath(allVisied, 4); // Blue for explored path
+
+            setTimeout(() => {
+                toast({
+                    title: "Error",
+                    description: "Path not found.",
+                    variant: "destructive",
+                });
+                // copy grid
+                let new_grid = [...grid];
+                new_grid[startNode[0]][startNode[1]] = 2;
+                new_grid[endNode[0]][endNode[1]] = 3;
+                setGrid(new_grid);
+            }, allVisied.length * 100 + 20);
         }
     };
 
