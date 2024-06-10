@@ -373,13 +373,13 @@ function StartDialogue({ handleStartNodeChange, startNode, endNode, algoClicked 
                     >
                         <div className="flex gap-4 mt-4 w-full">
                             <div>
-                                <Label htmlFor="row" className="mb-5 ml-1">Row</Label>
-                                <Input type="number" placeholder="Row (1-10)" required value={row} onChange={(e) => setRow(e.target.value)}
+                                <Label htmlFor="row" className="ml-1">Row</Label>
+                                <Input className="mt-1" type="number" placeholder="Row (1-10)" required value={row} onChange={(e) => setRow(e.target.value)}
                                 />
                             </div>
                             <div>
-                                <Label htmlFor="column" className="mb-5 ml-1">Column</Label>
-                                <Input type="number" placeholder="Column (1-10)" required value={column} onChange={(e) => setColumn(e.target.value)}
+                                <Label htmlFor="column" className="ml-1">Column</Label>
+                                <Input className="mt-1" type="number" placeholder="Column (1-10)" required value={column} onChange={(e) => setColumn(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -456,13 +456,13 @@ function EndDialogue({ handleEndNodeChange, endNode, startNode, algoClicked }) {
                     <DialogDescription>
                         <div className="flex gap-4 mt-4 w-full">
                             <div>
-                                <Label htmlFor="row" className="mb-5 ml-1">Row</Label>
-                                <Input type="number" placeholder="Row (1-10)" required value={row} onChange={(e) => setRow(e.target.value)}
+                                <Label htmlFor="row" className="ml-1">Row</Label>
+                                <Input className="mt-1" type="number" placeholder="Row (1-10)" required value={row} onChange={(e) => setRow(e.target.value)}
                                 />
                             </div>
                             <div>
-                                <Label htmlFor="column" className="mb-5 ml-1">Column</Label>
-                                <Input type="number" placeholder="Column (1-10)" required value={column} onChange={(e) => setColumn(e.target.value)}
+                                <Label htmlFor="column" className="ml-1">Column</Label>
+                                <Input className="mt-1" type="number" placeholder="Column (1-10)" required value={column} onChange={(e) => setColumn(e.target.value)}
                                 />
                             </div>
                         </div>
