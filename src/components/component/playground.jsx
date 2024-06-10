@@ -265,7 +265,7 @@ export function Playground() {
 
     return (
         (<div className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
-            <h1 className="text-3xl font-bold mb-8 p-4 text-gray-800 text-center dark:text-gray-200">Path Finding Algorithm Visualizer</h1>
+            <h1 className="text-3xl font-bold mb-8 p-2 text-gray-800 text-center dark:text-gray-200">Path Finding Algorithm Visualizer</h1>
             <div className="grid grid-cols-10 gap-1 bg-transparent">
 
                 {algoClicked === false ?
