@@ -100,40 +100,60 @@ export function Playground() {
             const distances = Array(grid.length).fill(null).map(() => Array(grid[0].length).fill(Infinity));
             const previous = Array(grid.length).fill(null).map(() => Array(grid[0].length).fill(null));
             distances[startNode[0]][startNode[1]] = 0;
+            var allVisied = []; // all nodes visited by the algorithm (not shortest path) no duplicates
 
             while (pq.length > 0) {
-                pq.sort((a, b) => a[2] - b[2]);
-                const [row, col, dist] = pq.shift();
 
+                pq.sort((a, b) => a[2] - b[2]);
+
+                const [row, col, dist] = pq.shift();
+                allVisied.push([row, col]);
                 if (row === endNode[0] && col === endNode[1]) {
+
                     const path = [];
+
                     let current = [endNode[0], endNode[1]];
+
                     while (current) {
+
                         path.unshift(current);
+                        if (current[0] === startNode[0] && current[1] === startNode[1]) {
+                            break;
+                        }
                         current = previous[current[0]][current[1]];
                     }
-                    return { path, found: true };
+                    return { path, allVisied, found: true };
                 }
 
+
                 for (const [dx, dy] of directions) {
+
                     const newRow = row + dx;
+
                     const newCol = col + dy;
+
                     if (
+
                         newRow >= 0 && newRow < grid.length &&
+
                         newCol >= 0 && newCol < grid[0].length &&
+
                         grid[newRow][newCol] !== 1 &&
                         distances[newRow][newCol] > dist + 1
                     ) {
                         distances[newRow][newCol] = dist + 1;
+
                         previous[newRow][newCol] = [row, col];
+
                         pq.push([newRow, newCol, dist + 1]);
+
                     }
                 }
             }
-            return { path: [], found: false };
+            return { path: [], allVisied: [], found: false };
         };
 
-        const { path, found } = dijkstra();
+        const { path, allVisied, found } = dijkstra();
 
         if (found) {
             const animatePath = (path, color) => {
@@ -149,8 +169,8 @@ export function Playground() {
                 });
             };
 
-            animatePath(path, 4); // Blue for explored path
-            setTimeout(() => animatePath(path, 5), path.length * 100); // Yellow for shortest path
+            animatePath(allVisied, 4); // Blue for explored path
+            setTimeout(() => animatePath(path, 5), allVisied.length * 100); // Yellow for shortest path
 
             // copy grid
             let new_grid = [...grid];
