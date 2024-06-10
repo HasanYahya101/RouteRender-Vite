@@ -342,6 +342,14 @@ function StartDialogue({ handleStartNodeChange, startNode, endNode, algoClicked 
             })
             return;
         }
+        if (row === null || column === null) {
+            toast({
+                title: "Error",
+                description: "Please enter a value.",
+                variant: "destructive",
+            })
+            return;
+        }
         let row_ = row - 1;
         let column_ = column - 1;
         if (row_ === endNode[0] && column_ === endNode[1]) {
@@ -422,6 +430,14 @@ function EndDialogue({ handleEndNodeChange, endNode, startNode, algoClicked }) {
             toast({
                 title: "Error",
                 description: "The value in the inputs should be from 1 to 10 or between.",
+                variant: "destructive",
+            })
+            return;
+        }
+        if (row === null || column === null) {
+            toast({
+                title: "Error",
+                description: "Please enter a value.",
                 variant: "destructive",
             })
             return;
