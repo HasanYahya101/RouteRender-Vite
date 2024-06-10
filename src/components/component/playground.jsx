@@ -185,8 +185,8 @@ export function Playground() {
 
 function StartDialogue({ handleStartNodeChange, startNode }) {
     const { toast } = useToast();
-    const [row, setRow] = useState(0);
-    const [column, setColumn] = useState(0);
+    const [row, setRow] = useState(startNode[0] + 1);
+    const [column, setColumn] = useState(startNode[1] + 1);
 
     const [open, setOpen] = useState(false);
 
@@ -255,8 +255,8 @@ function EndDialogue({ handleEndNodeChange, endNode }) {
     const { toast } = useToast();
     const [open, setOpen] = useState(false);
 
-    const [row, setRow] = useState(0);
-    const [column, setColumn] = useState(0);
+    const [row, setRow] = useState(endNode[0] + 1);
+    const [column, setColumn] = useState(endNode[1] + 1);
 
     function buttonClick() {
         if (row < 1 || row > 10 || column < 1 || column > 10) {
