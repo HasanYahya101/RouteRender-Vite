@@ -206,8 +206,9 @@ export function Playground() {
      * 1 - gray (Selected)
      * 2 - green (Start Node)
      * 3 - red (End Node)
-     * 4 - blue (Path Algorithm)
+     * 4 - blue (Path Algorithm all tiles visted)
      * 5 - yellow (shortest path)
+     * Note: yellow path must be a subset of blue path
      */
 
     return (
