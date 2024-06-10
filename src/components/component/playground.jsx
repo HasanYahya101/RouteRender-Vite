@@ -58,26 +58,36 @@ export function Playground() {
     }
 
     const runPathfindingAlgorithm = () => {
+        // check if 4 or 5 is present in the grid
+        let flag = false;
+        grid.forEach((row) => {
+            row.forEach((cell) => {
+                if (cell === 4 || cell === 5) {
+                    flag = true;
+                }
+            });
+        });
+        if (flag) {
+            toast({
+                title: "Error",
+                description: "Tiles from last run (yellow or blue) are present in the maze. Clearing the maze before running the algorithm.",
+                variant: "destructive",
+            });
+
+            const newGrid = [...grid];
+            newGrid.forEach((row, rowIndex) => {
+                row.forEach((cell, colIndex) => {
+                    if (cell === 4 || cell === 5) {
+                        newGrid[rowIndex][colIndex] = 0;
+                    }
+                });
+            });
+            setGrid(newGrid);
+        }
         setAlgoClicked(true);
         setIsRunning(true);
 
-        const queue = [[startNode[0], startNode[1], 0]];
-        const visited = new Set();
-        const path = [];
-
-        const animatePath = (newGrid, path) => {
-            path.forEach(([r, c], index) => {
-                setTimeout(() => {
-                    newGrid[r][c] = 4;
-                    setGrid([...newGrid]);
-                    if (index === path.length - 1) {
-                        setIsRunning(false);
-                        setAlgoClicked(false);
-                    }
-                }, index * 100);
-            });
-        };
-
+        const newGrid = [...grid];
         const directions = [
             [-1, 0], // Up
             [1, 0],  // Down
@@ -85,48 +95,83 @@ export function Playground() {
             [0, 1],  // Right
         ];
 
-        while (queue.length > 0) {
-            const [row, col, distance] = queue.shift();
-            const key = `${row},${col}`;
-            if (visited.has(key)) continue;
-            visited.add(key);
-            if (row === endNode[0] && col === endNode[1]) {
-                animatePath([...grid], path);
-                return;
-            }
-            if (grid[row][col] === 0 || (row === startNode[0] && col === startNode[1])) {
-                const newGrid = [...grid];
-                newGrid[row][col] = 3;
-                setGrid(newGrid);
-                path.push([row, col]);
+        const dijkstra = () => {
+            const pq = [[startNode[0], startNode[1], 0]];
+            const distances = Array(grid.length).fill(null).map(() => Array(grid[0].length).fill(Infinity));
+            const previous = Array(grid.length).fill(null).map(() => Array(grid[0].length).fill(null));
+            distances[startNode[0]][startNode[1]] = 0;
+
+            while (pq.length > 0) {
+                pq.sort((a, b) => a[2] - b[2]);
+                const [row, col, dist] = pq.shift();
+
+                if (row === endNode[0] && col === endNode[1]) {
+                    const path = [];
+                    let current = [endNode[0], endNode[1]];
+                    while (current) {
+                        path.unshift(current);
+                        current = previous[current[0]][current[1]];
+                    }
+                    return { path, found: true };
+                }
+
                 for (const [dx, dy] of directions) {
                     const newRow = row + dx;
                     const newCol = col + dy;
                     if (
                         newRow >= 0 && newRow < grid.length &&
                         newCol >= 0 && newCol < grid[0].length &&
-                        !visited.has(`${newRow},${newCol}`) &&
-                        (grid[newRow][newCol] === 0 || (newRow === endNode[0] && newCol === endNode[1]))
+                        grid[newRow][newCol] !== 1 &&
+                        distances[newRow][newCol] > dist + 1
                     ) {
-                        queue.push([newRow, newCol, distance + 1]);
+                        distances[newRow][newCol] = dist + 1;
+                        previous[newRow][newCol] = [row, col];
+                        pq.push([newRow, newCol, dist + 1]);
                     }
                 }
             }
-        }
+            return { path: [], found: false };
+        };
 
-        if (queue.length === 0) {
+        const { path, found } = dijkstra();
+
+        if (found) {
+            const animatePath = (path, color) => {
+                path.forEach(([r, c], index) => {
+                    setTimeout(() => {
+                        newGrid[r][c] = color;
+                        setGrid([...newGrid]);
+                        if (index === path.length - 1) {
+                            setIsRunning(false);
+                            setAlgoClicked(false);
+                        }
+                    }, index * 100);
+                });
+            };
+
+            animatePath(path, 4); // Blue for explored path
+            setTimeout(() => animatePath(path, 5), path.length * 100); // Yellow for shortest path
+
+            // copy grid
+            let new_grid = [...grid];
+            new_grid[startNode[0]][startNode[1]] = 2;
+            new_grid[endNode[0]][endNode[1]] = 3;
+            setGrid(new_grid);
+        } else {
             toast({
                 title: "Error",
                 description: "No path found.",
                 variant: "destructive",
             });
+            setIsRunning(false);
+            setAlgoClicked(false);
+
+            // copy grid
+            let new_grid = [...grid];
+            new_grid[startNode[0]][startNode[1]] = 2;
+            new_grid[endNode[0]][endNode[1]] = 3;
+            setGrid(new_grid);
         }
-
-        // put the closest path in yellow
-
-
-        setIsRunning(false);
-        setAlgoClicked(false);
     };
 
 
