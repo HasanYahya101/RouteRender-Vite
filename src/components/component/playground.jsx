@@ -52,31 +52,45 @@ export function Playground() {
             setEndNode([row, col]);
         }
     }
+    const runClicked = () => {
+        setAlgoClicked(true);
+        runPathfindingAlgorithm();
+        setAlgoClicked(false);
+    }
     const runPathfindingAlgorithm = () => {
         setAlgoClicked(true);
         setIsRunning(true);
         const queue = [[startNode[0], startNode[1], 0]];
         const visited = new Set();
         const path = [];
+
+        const animatePath = (newGrid, path) => {
+            path.forEach(([r, c], index) => {
+                setTimeout(() => {
+                    newGrid[r][c] = 4;
+                    setGrid([...newGrid]);
+                    if (index === path.length - 1) {
+                        setIsRunning(false);
+                        setAlgoClicked(false);
+                    }
+                }, index * 100);
+            });
+        };
+
         while (queue.length > 0) {
             const [row, col, distance] = queue.shift();
             const key = `${row},${col}`;
             if (visited.has(key)) continue;
             visited.add(key);
             if (row === endNode[0] && col === endNode[1]) {
-                path.forEach(([r, c]) => {
-                    const newGrid = [...grid];
-                    newGrid[r][c] = 2;
-                    setGrid(newGrid);
-                })
-                setIsRunning(false);
+                animatePath([...grid], path);
                 return;
             }
             if (grid[row][col] === 0) {
                 const newGrid = [...grid];
                 newGrid[row][col] = 3;
-                setGrid(newGrid);
                 path.push([row, col]);
+                queue.push([row - 1, col, distance + 1]);
                 queue.push([row - 1, col, distance + 1]);
                 queue.push([row + 1, col, distance + 1]);
                 queue.push([row, col - 1, distance + 1]);
@@ -86,6 +100,7 @@ export function Playground() {
         setIsRunning(false);
         setAlgoClicked(false);
     }
+
 
     useEffect(() => {
         const newGrid = [...grid];
@@ -140,7 +155,7 @@ export function Playground() {
                 {algoClicked === false ?
                     (
                         <Button
-                            onClick={runPathfindingAlgorithm}
+                            onClick={runClicked}
                             className="px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition-colors"
                         >
                             Run Algorithm
