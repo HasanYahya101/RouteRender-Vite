@@ -373,12 +373,12 @@ function StartDialogue({ handleStartNodeChange, startNode, endNode, algoClicked 
                     >
                         <div className="flex gap-4 mt-4 w-full">
                             <div>
-                                <Label htmlFor="row" className="mb-3 ml-1">Row</Label>
+                                <Label htmlFor="row" className="mb-5 ml-1">Row</Label>
                                 <Input type="number" placeholder="Row (1-10)" required value={row} onChange={(e) => setRow(e.target.value)}
                                 />
                             </div>
                             <div>
-                                <Label htmlFor="column" className="mb-3 ml-1">Column</Label>
+                                <Label htmlFor="column" className="mb-5 ml-1">Column</Label>
                                 <Input type="number" placeholder="Column (1-10)" required value={column} onChange={(e) => setColumn(e.target.value)}
                                 />
                             </div>
@@ -456,12 +456,12 @@ function EndDialogue({ handleEndNodeChange, endNode, startNode, algoClicked }) {
                     <DialogDescription>
                         <div className="flex gap-4 mt-4 w-full">
                             <div>
-                                <Label htmlFor="row" className="mb-3 ml-1">Row</Label>
+                                <Label htmlFor="row" className="mb-5 ml-1">Row</Label>
                                 <Input type="number" placeholder="Row (1-10)" required value={row} onChange={(e) => setRow(e.target.value)}
                                 />
                             </div>
                             <div>
-                                <Label htmlFor="column" className="mb-3 ml-1">Column</Label>
+                                <Label htmlFor="column" className="mb-5 ml-1">Column</Label>
                                 <Input type="number" placeholder="Column (1-10)" required value={column} onChange={(e) => setColumn(e.target.value)}
                                 />
                             </div>
