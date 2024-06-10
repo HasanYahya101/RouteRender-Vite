@@ -226,7 +226,8 @@ function EndDialogue({ handleEndNodeChange, endNode }) {
                     Set End
                 </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="w-96"
+            >
                 <DialogHeader>
                     <DialogTitle>Enter End Grid (1-10)
                     </DialogTitle>
