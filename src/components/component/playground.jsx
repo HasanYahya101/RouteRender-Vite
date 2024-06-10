@@ -28,10 +28,12 @@ export function Playground() {
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     ]);
+
     const [startNode, setStartNode] = useState([0, 0]);
     const [endNode, setEndNode] = useState([9, 9]);
     const [isRunning, setIsRunning] = useState(false);
     const [algoClicked, setAlgoClicked] = useState(false);
+
     const handleGridClick = (row, col) => {
         if ((row === startNode[0] && col === startNode[1]) || (row === endNode[0] && col === endNode[1])) {
             return;
@@ -42,21 +44,19 @@ export function Playground() {
             setGrid(newGrid);
         }
     }
+
     const handleStartNodeChange = (row, col) => {
         if (!isRunning) {
             setStartNode([row, col]);
         }
     }
+
     const handleEndNodeChange = (row, col) => {
         if (!isRunning) {
             setEndNode([row, col]);
         }
     }
-    const runClicked = () => {
-        setAlgoClicked(true);
-        runPathfindingAlgorithm();
-        setAlgoClicked(false);
-    }
+
     const runPathfindingAlgorithm = () => {
         setAlgoClicked(true);
         setIsRunning(true);
@@ -100,6 +100,15 @@ export function Playground() {
         setIsRunning(false);
         setAlgoClicked(false);
     }
+
+    useEffect(() => {
+        if (isRunning) {
+            toast({
+                title: "Info",
+                description: "Algorithm is running. Please wait.",
+            });
+        }
+    }, [isRunning]);
 
 
     useEffect(() => {
