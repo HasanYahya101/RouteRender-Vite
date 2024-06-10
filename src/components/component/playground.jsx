@@ -32,6 +32,9 @@ export function Playground() {
     const [endNode, setEndNode] = useState([9, 9]);
     const [isRunning, setIsRunning] = useState(false);
     const handleGridClick = (row, col) => {
+        if ((row === startNode[0] && col === startNode[1]) || (row === endNode[0] && col === endNode[1])) {
+            return;
+        }
         if (!isRunning) {
             const newGrid = [...grid];
             newGrid[row][col] = newGrid[row][col] === 0 ? 1 : 0;
@@ -80,6 +83,13 @@ export function Playground() {
         }
         setIsRunning(false);
     }
+
+    useEffect(() => {
+        const newGrid = [...grid];
+        newGrid[startNode[0]][startNode[1]] = 2;
+        newGrid[endNode[0]][endNode[1]] = 3;
+        setGrid(newGrid);
+    }, [startNode, endNode]);
 
     return (
         (<div className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
