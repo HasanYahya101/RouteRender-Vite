@@ -13,6 +13,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
 
 export function Playground() {
     const { toast } = useToast();
@@ -257,8 +265,9 @@ export function Playground() {
 
     return (
         (<div className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
-            <h1 className="text-3xl font-bold mb-8 text-gray-800 dark:text-gray-200">Path Finding Algorithm Visualizer</h1>
-            <div className="grid grid-cols-10 gap-1">
+            <h1 className="text-3xl font-bold mb-8 p-4 text-gray-800 text-center dark:text-gray-200">Path Finding Algorithm Visualizer</h1>
+            <div className="grid grid-cols-10 gap-1 bg-transparent">
+
                 {algoClicked === false ?
                     (
                         grid.map((row, rowIndex) =>
