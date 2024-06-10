@@ -60,6 +60,7 @@ export function Playground() {
     const runPathfindingAlgorithm = () => {
         setAlgoClicked(true);
         setIsRunning(true);
+
         const queue = [[startNode[0], startNode[1], 0]];
         const visited = new Set();
         const path = [];
@@ -77,6 +78,13 @@ export function Playground() {
             });
         };
 
+        const directions = [
+            [-1, 0], // Up
+            [1, 0],  // Down
+            [0, -1], // Left
+            [0, 1],  // Right
+        ];
+
         while (queue.length > 0) {
             const [row, col, distance] = queue.shift();
             const key = `${row},${col}`;
@@ -86,20 +94,41 @@ export function Playground() {
                 animatePath([...grid], path);
                 return;
             }
-            if (grid[row][col] === 0) {
+            if (grid[row][col] === 0 || (row === startNode[0] && col === startNode[1])) {
                 const newGrid = [...grid];
                 newGrid[row][col] = 3;
+                setGrid(newGrid);
                 path.push([row, col]);
-                queue.push([row - 1, col, distance + 1]);
-                queue.push([row - 1, col, distance + 1]);
-                queue.push([row + 1, col, distance + 1]);
-                queue.push([row, col - 1, distance + 1]);
-                queue.push([row, col + 1, distance + 1]);
+                for (const [dx, dy] of directions) {
+                    const newRow = row + dx;
+                    const newCol = col + dy;
+                    if (
+                        newRow >= 0 && newRow < grid.length &&
+                        newCol >= 0 && newCol < grid[0].length &&
+                        !visited.has(`${newRow},${newCol}`) &&
+                        (grid[newRow][newCol] === 0 || (newRow === endNode[0] && newCol === endNode[1]))
+                    ) {
+                        queue.push([newRow, newCol, distance + 1]);
+                    }
+                }
             }
         }
+
+        if (queue.length === 0) {
+            toast({
+                title: "Error",
+                description: "No path found.",
+                variant: "destructive",
+            });
+        }
+
+        // put the closest path in yellow
+
+
         setIsRunning(false);
         setAlgoClicked(false);
-    }
+    };
+
 
     useEffect(() => {
         if (isRunning) {
@@ -133,6 +162,7 @@ export function Playground() {
      * 2 - green (Start Node)
      * 3 - red (End Node)
      * 4 - blue (Path Algorithm)
+     * 5 - yellow (shortest path)
      */
 
     return (
@@ -150,7 +180,8 @@ export function Playground() {
                                     : cell === 2
                                         ? "bg-green-500 dark:bg-green-700"
                                         : cell === 3 ? "bg-red-500 dark:bg-red-700"
-                                            : "bg-blue-500 dark:bg-blue-700"
+                                            : cell === 4 ? "bg-blue-500 dark:bg-blue-700"
+                                                : "bg-yellow-500 dark:bg-yellow-700"
                                 }`}
                             onClick={() => handleGridClick(rowIndex, colIndex)}
                             onMouseEnter={() => handleGridClick(rowIndex, colIndex)}
