@@ -236,8 +236,8 @@ export function Playground() {
                 )}
             </div>
             <div className="mt-8 flex gap-4">
-                <StartDialogue handleStartNodeChange={handleStartNodeChange} startNode={startNode} />
-                <EndDialogue handleEndNodeChange={handleEndNodeChange} endNode={endNode} />
+                <StartDialogue handleStartNodeChange={handleStartNodeChange} startNode={startNode} endNode={endNode} />
+                <EndDialogue handleEndNodeChange={handleEndNodeChange} endNode={endNode} startNode={startNode} />
                 {algoClicked === false ?
                     (
                         <Button
@@ -260,7 +260,7 @@ export function Playground() {
 }
 
 
-function StartDialogue({ handleStartNodeChange, startNode }) {
+function StartDialogue({ handleStartNodeChange, startNode, endNode }) {
     const { toast } = useToast();
     const [row, setRow] = useState(startNode[0] + 1);
     const [column, setColumn] = useState(startNode[1] + 1);
@@ -278,6 +278,14 @@ function StartDialogue({ handleStartNodeChange, startNode }) {
         }
         let row_ = row - 1;
         let column_ = column - 1;
+        if (row_ === endNode[0] && column_ === endNode[1]) {
+            toast({
+                title: "Error",
+                description: "Start node cannot be the same as End node.",
+                variant: "destructive",
+            })
+            return;
+        }
         handleStartNodeChange(row_, column_);
         toast({
             title: "Success",
@@ -328,7 +336,7 @@ function StartDialogue({ handleStartNodeChange, startNode }) {
     );
 }
 
-function EndDialogue({ handleEndNodeChange, endNode }) {
+function EndDialogue({ handleEndNodeChange, endNode, startNode }) {
     const { toast } = useToast();
     const [open, setOpen] = useState(false);
 
@@ -346,6 +354,14 @@ function EndDialogue({ handleEndNodeChange, endNode }) {
         }
         let row_ = row - 1;
         let column_ = column - 1;
+        if (row_ === startNode[0] && column_ === startNode[1]) {
+            toast({
+                title: "Error",
+                description: "End node cannot be the same as Start node.",
+                variant: "destructive",
+            })
+            return;
+        }
         handleEndNodeChange(row_, column_);
         toast({
             title: "Success",
