@@ -244,25 +244,47 @@ export function Playground() {
         (<div className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
             <h1 className="text-3xl font-bold mb-8 text-gray-800 dark:text-gray-200">Path Finding Algorithm Visualizer</h1>
             <div className="grid grid-cols-10 gap-1">
-                {grid.map((row, rowIndex) =>
-                    row.map((cell, colIndex) => (
-                        <div
-                            key={`${rowIndex}-${colIndex}`}
-                            className={`w-8 h-8 border border-gray-200 dark:border-gray-700 cursor-pointer transition-colors ${cell === 0
-                                ? "bg-white dark:bg-gray-800"
-                                : cell === 1
-                                    ? "bg-gray-400 dark:bg-gray-600"
-                                    : cell === 2
-                                        ? "bg-green-500 dark:bg-green-700"
-                                        : cell === 3 ? "bg-red-500 dark:bg-red-700"
-                                            : cell === 4 ? "bg-blue-500 dark:bg-blue-700"
-                                                : "bg-yellow-500 dark:bg-yellow-700"
-                                }`}
-                            onClick={() => handleGridClick(rowIndex, colIndex)}
-                            onMouseEnter={() => handleGridClick(rowIndex, colIndex)}
-                        />
-                    )),
-                )}
+                {algoClicked === false ?
+                    (
+                        grid.map((row, rowIndex) =>
+                            row.map((cell, colIndex) => (
+                                <div
+                                    key={`${rowIndex}-${colIndex}`}
+                                    className={`w-8 h-8 border border-gray-200 dark:border-gray-700 cursor-pointer transition-colors ${cell === 0
+                                        ? "bg-white dark:bg-gray-800"
+                                        : cell === 1
+                                            ? "bg-gray-400 dark:bg-gray-600"
+                                            : cell === 2
+                                                ? "bg-green-500 dark:bg-green-700"
+                                                : cell === 3 ? "bg-red-500 dark:bg-red-700"
+                                                    : cell === 4 ? "bg-blue-500 dark:bg-blue-700"
+                                                        : "bg-yellow-500 dark:bg-yellow-700"
+                                        }`}
+                                    onClick={() => handleGridClick(rowIndex, colIndex)}
+                                    onMouseEnter={() => handleGridClick(rowIndex, colIndex)}
+                                />
+                            )),
+                        )
+                    ) :
+                    (
+                        grid.map((row, rowIndex) =>
+                            row.map((cell, colIndex) => (
+                                <div
+                                    key={`${rowIndex}-${colIndex}`}
+                                    className={`w-8 h-8 border border-gray-200 dark:border-gray-700 cursor-pointer transition-colors ${cell === 0
+                                        ? "bg-white dark:bg-gray-800"
+                                        : cell === 1
+                                            ? "bg-gray-400 dark:bg-gray-600"
+                                            : cell === 2
+                                                ? "bg-green-500 dark:bg-green-700"
+                                                : cell === 3 ? "bg-red-500 dark:bg-red-700"
+                                                    : cell === 4 ? "bg-blue-500 dark:bg-blue-700"
+                                                        : "bg-yellow-500 dark:bg-yellow-700"
+                                        }`}
+                                />
+                            )),
+                        )
+                    )}
             </div>
             <div className="mt-8 flex gap-4">
                 <StartDialogue handleStartNodeChange={handleStartNodeChange} startNode={startNode} endNode={endNode} algoClicked={algoClicked} />
