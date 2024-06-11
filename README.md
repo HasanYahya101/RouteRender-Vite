@@ -23,7 +23,7 @@ This project was deployed to Github Pages and can be tested there. No servers or
 
 ## Walkthrough
 
-https://github.com/HasanYahya101/RouteRender-Vite/assets/118683092/a0164e19-397d-411b-a6f3-e645b9fd0c9d
+https://github.com/HasanYahya101/RouteRender-Vite/assets/118683092/8f05d722-2a67-44fc-a61d-52dd8013d212
 
 ## React + Vite
 
